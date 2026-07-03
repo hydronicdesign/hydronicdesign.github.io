@@ -226,9 +226,10 @@
 
     </div>
 
-    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" data-reveal style="pointer-events:auto;cursor:default;padding:0;background:var(--navy-3)">
+    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" data-reveal style="pointer-events:auto;cursor:zoom-in;padding:0;background:var(--navy-3)" title="Tap to enlarge">
       <canvas id="pdf-canvas" style="width:100%;height:auto;display:block;border-radius:var(--r)"></canvas>
       <div id="pdf-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem">Loading preview…</div>
+      <span class="zoom-hint">Tap to enlarge</span>
     </div>
 
   </div>
@@ -258,6 +259,12 @@
     <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
   </div>
 </footer>
+<!-- Lightbox for enlarged PDF view -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button>
+  <canvas id="pdf-canvas-large" style="max-width:95vw;max-height:92vh;border-radius:6px;box-shadow:0 8px 60px rgba(0,0,0,0.8);display:block"></canvas>
+</div>
+
 <script src="js/main.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
@@ -266,25 +273,62 @@
   var pdfUrl = 'images/screenshot 2.pdf';
   var canvas = document.getElementById('pdf-canvas');
   var loading = document.getElementById('pdf-loading');
+  var pdfPage = null;
 
+  /* Load PDF once, render thumbnail at 0.6x scale for fast load */
   pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
     return pdf.getPage(1);
   }).then(function(page) {
+    pdfPage = page;
     var container = canvas.parentElement;
-    var containerWidth = container.clientWidth || 800;
+    var containerWidth = container.clientWidth || 700;
     var viewport = page.getViewport({ scale: 1 });
-    var scale = containerWidth / viewport.width;
+    var scale = (containerWidth / viewport.width) * 0.6; /* 0.6x = smaller file, faster paint */
     var scaledViewport = page.getViewport({ scale: scale });
 
-    canvas.width = scaledViewport.width;
+    canvas.width  = scaledViewport.width;
     canvas.height = scaledViewport.height;
 
     page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledViewport }).promise.then(function() {
       if (loading) loading.style.display = 'none';
     });
   }).catch(function() {
-    if (loading) loading.textContent = 'Preview unavailable — please download the PDF below.';
+    if (loading) loading.textContent = 'Preview unavailable.';
   });
+
+  /* Lightbox — renders PDF at full quality when opened */
+  function openLightbox() {
+    var lb = document.getElementById('lightbox');
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    if (pdfPage) {
+      var lbCanvas = document.getElementById('pdf-canvas-large');
+      var vw = window.innerWidth * 0.95;
+      var vh = window.innerHeight * 0.92;
+      var viewport = pdfPage.getViewport({ scale: 1 });
+      var scale = Math.min(vw / viewport.width, vh / viewport.height);
+      var sv = pdfPage.getViewport({ scale: scale });
+      lbCanvas.width  = sv.width;
+      lbCanvas.height = sv.height;
+      pdfPage.render({ canvasContext: lbCanvas.getContext('2d'), viewport: sv });
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function addTap(el, fn) {
+    el.addEventListener('click', fn);
+    el.addEventListener('touchend', function(e) { e.preventDefault(); fn(); });
+  }
+
+  addTap(document.getElementById('sample-design'), openLightbox);
+  addTap(document.getElementById('lightbox'), closeLightbox);
+  addTap(document.getElementById('lightbox-close'), function(e) { e.stopPropagation(); closeLightbox(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
 </html>
