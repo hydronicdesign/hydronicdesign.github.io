@@ -45,6 +45,7 @@
       gap: 0;
       border: 1px solid var(--border);
       border-radius: var(--r); overflow: hidden;
+      width: 100%; box-sizing: border-box;
     }
     .stat-box {
       padding: 2rem;
@@ -66,6 +67,12 @@
     @media (max-width: 600px) {
       .team-grid { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: 1fr 1fr; }
+      .stat-box { padding: 1.25rem 0.75rem; }
+      .stat-box__num { font-size: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr 1fr; overflow: visible; border-radius: 0; border: none; gap: 0.75rem; background: transparent; }
+      .stat-box { border: 1px solid var(--border); border-radius: var(--r); border-right: 1px solid var(--border) !important; border-top: 1px solid var(--border) !important; }
     }
   </style>
 </head>
