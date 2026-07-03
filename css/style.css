@@ -927,6 +927,24 @@ p  { color: var(--muted); }
   .cta-banner__actions { flex-direction: column; align-items: center; }
   .footer__bottom { flex-direction: column; text-align: center; }
   .contact-form { padding: 1.5rem; }
+
+  /* Service cards — stack vertically, equal height, fix badge */
+  .svc-visual-section__cards {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+  .hero-card {
+    /* equal height: all cards use same flex layout, no auto-height variance */
+    padding-top: 2.5rem;
+  }
+  .hero-card__badge {
+    /* move badge inside flow so it doesn't overlap the label */
+    position: static;
+    display: inline-block;
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+    align-self: flex-start;
+  }
 }
 
 /* ── CAD plan background ── */
