@@ -226,9 +226,9 @@
 
     </div>
 
-    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" title="Tap to enlarge" data-reveal style="pointer-events:auto;cursor:pointer">
-      <img src="images/Screenshot 2026-07-01 145903.png" alt="Sample UFH pipe layout design with room-by-room heat loss data" />
-      <span class="zoom-hint">Tap to enlarge</span>
+    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" data-reveal style="pointer-events:auto;cursor:default;padding:0;background:var(--navy-3)">
+      <canvas id="pdf-canvas" style="width:100%;height:auto;display:block;border-radius:var(--r)"></canvas>
+      <div id="pdf-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem">Loading preview…</div>
     </div>
 
   </div>
@@ -258,36 +258,32 @@
     <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
   </div>
 </footer>
-<div class="lightbox" id="lightbox">
-  <button class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button>
-  <img src="images/Screenshot 2026-07-01 145903.png" alt="UFH pipe layout design — full size" />
-</div>
 <script src="js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-  function openLightbox() {
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-  var trigger = document.getElementById('sample-design');
-  var lightbox = document.getElementById('lightbox');
-  var closeBtn = document.getElementById('lightbox-close');
+  var pdfUrl = 'images/screenshot 2.pdf';
+  var canvas = document.getElementById('pdf-canvas');
+  var loading = document.getElementById('pdf-loading');
 
-  function addTap(el, fn) {
-    el.addEventListener('click', fn);
-    el.addEventListener('touchend', function(e) { e.preventDefault(); fn(); });
-  }
+  pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+    return pdf.getPage(1);
+  }).then(function(page) {
+    var container = canvas.parentElement;
+    var containerWidth = container.clientWidth || 800;
+    var viewport = page.getViewport({ scale: 1 });
+    var scale = containerWidth / viewport.width;
+    var scaledViewport = page.getViewport({ scale: scale });
 
-  addTap(trigger, openLightbox);
-  addTap(lightbox, closeLightbox);
-  addTap(closeBtn, function(e) { e.stopPropagation(); closeLightbox(); });
+    canvas.width = scaledViewport.width;
+    canvas.height = scaledViewport.height;
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeLightbox();
+    page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledViewport }).promise.then(function() {
+      if (loading) loading.style.display = 'none';
+    });
+  }).catch(function() {
+    if (loading) loading.textContent = 'Preview unavailable — please download the PDF below.';
   });
 </script>
 </body>
