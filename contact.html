@@ -364,12 +364,14 @@ async function handleSubmit(e) {
   selectedFiles.forEach(f => data.append('attachment', f, f.name));
 
   try {
-    const res  = await fetch('https://formsubmit.co/projects@hydronicdesign.co.uk', {
+    const res  = await fetch('https://formsubmit.co/ajax/projects@hydronicdesign.co.uk', {
       method: 'POST',
       body: data
     });
 
-    if (res.ok) {
+    const json = await res.json().catch(() => ({}));
+
+    if (res.ok && json.success === 'true') {
       form.innerHTML = `<div class="form-success">
         <div class="form-success__icon">✓</div>
         <h3>Message Received</h3>
@@ -378,7 +380,7 @@ async function handleSubmit(e) {
     } else {
       btn.textContent = 'Send Enquiry →';
       btn.disabled = false;
-      errEl.textContent = 'Something went wrong — please try again or email us directly.';
+      errEl.textContent = json.message || 'Something went wrong — please try again or email us directly.';
     }
   } catch {
     btn.textContent = 'Send Enquiry →';
