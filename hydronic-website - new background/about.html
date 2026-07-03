@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Hydronic Design Ltd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .team-card {
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      transition: border-color var(--t), transform var(--t);
+    }
+    .team-card:hover { border-color: rgba(34,211,238,0.3); transform: translateY(-4px); }
+    .team-card__img {
+      width: 100%; aspect-ratio: 3/2;
+      background: linear-gradient(135deg, var(--slate), var(--navy-3));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+    }
+    .team-card__body { padding: 1.25rem 1.5rem 1.5rem; }
+    .team-card__name { font-family: var(--font-head); font-weight: 700; color: var(--white); margin-bottom: 0.2rem; }
+    .team-card__role { font-size: 0.78rem; color: var(--cyan); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+    .team-card p { font-size: 0.83rem; line-height: 1.7; }
+    .values-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .value-card {
+      padding: 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      background: rgba(255,255,255,0.02);
+      transition: border-color var(--t), background var(--t);
+    }
+    .value-card:hover { border-color: rgba(34,211,238,0.25); background: var(--cyan-glow); }
+    .value-card__icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .value-card h3 { color: var(--white); margin-bottom: 0.4rem; }
+    .value-card p  { font-size: 0.85rem; }
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .stat-box {
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+      text-align: center;
+      background: var(--navy-3);
+    }
+    .stat-box:last-child { border-right: none; }
+    .stat-box__num { font-family: var(--font-head); font-size: 2.6rem; font-weight: 700; color: var(--cyan); line-height: 1; }
+    .stat-box__label { font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+    @media (max-width: 900px) {
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stat-box:nth-child(2) { border-right: none; }
+      .stat-box:nth-child(3) { border-top: 1px solid var(--border); border-right: 1px solid var(--border); }
+      .stat-box:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+    }
+    @media (max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ DRAGGABLE / ZOOMABLE PLAN BACKGROUND ══ -->
+<div id="cad-bg" aria-hidden="true">
+  <img id="cad-bg-img" src="assets/plan-bg.png" alt="" draggable="false" />
+</div>
+<div id="cad-bg-tint" aria-hidden="true"></div>
+<div id="cad-controls">
+  <div id="cad-hint"><span class="cad-hint__dot"></span>Drag to pan · +/&minus; to zoom</div>
+  <div class="cad-controls__btns">
+    <button type="button" id="cad-zoom-out" aria-label="Zoom out">&minus;</button>
+    <button type="button" id="cad-zoom-in" aria-label="Zoom in">&plus;</button>
+    <button type="button" id="cad-reset">Reset</button>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__text"><span class="logo__top">Hydronic</span><span class="logo__bot">Design <em>Ltd</em></span><span class="logo__lines"><span></span><span></span></span></span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="index.html"    class="nav__link">Home</a></li>
+      <li><a href="services.html" class="nav__link">Services</a></li>
+      <li><a href="about.html"    class="nav__link active">About</a></li>
+      <li><a href="projects.html" class="nav__link">Projects</a></li>
+      <li><a href="contact.html"  class="nav__link">Contact</a></li>
+    </ul>
+    <div class="nav__cta-group">
+      <a href="trade.html" class="btn btn--orange">Trade &amp; Commercial</a>
+      <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+    </div>
+    <button class="nav__toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__mobile">
+    <a href="index.html"    class="nav__link">Home</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html"    class="nav__link active">About</a>
+    <a href="projects.html" class="nav__link">Projects</a>
+    <a href="contact.html"  class="nav__link">Contact</a>
+    <a href="trade.html"    class="btn btn--orange">Trade &amp; Commercial</a>
+    <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>About</span></div>
+    <span class="eyebrow">Who We Are</span>
+    <h1>About Hydronic Design</h1>
+    <p>A specialist UFH design service with over 15 years of focused expertise in underfloor heating systems.</p>
+  </div>
+</div>
+
+<section class="section" style="background:var(--navy)">
+  <div class="container">
+    <div class="about-grid" style="grid-template-columns:1fr">
+      <div class="about-content" data-reveal>
+        <span class="eyebrow">Our Story</span>
+        <h2>Engineering-First Design Practice</h2>
+        <p>Hydronic Design is a specialist mechanical engineering design service focused exclusively on underfloor heating systems. We work with contractors, consultants, installers and self-builders to produce precise, installation-ready design packages. Our experience spans UFH install, heat pump technical advice, AutoCAD drafting, and project management.</p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" aria-hidden="true">
+                <text x="12" y="17" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor" font-family="system-ui,sans-serif">£</text>
+              </svg>
+            </div>
+            <div><strong>Competitive Pricing</strong><span>Competitive prices starting at £149.99 for a typical house or flat.</span></div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature__icon">⚡</div>
+            <div><strong>48-Hour Turnaround</strong><span>Residential designs typically delivered within 48 hours of receiving your floor plans.</span></div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature__icon">💷</div>
+            <div><strong>Fixed, Transparent Fees</strong><span>Clear pricing confirmed before we start — no hidden extras or revision charges.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--navy-2)">
+  <div class="container">
+    <div class="stats-row" data-reveal>
+      <div class="stat-box"><div class="stat-box__num">112+</div><div class="stat-box__label">Projects Completed</div></div>
+      <div class="stat-box"><div class="stat-box__num">15</div><div class="stat-box__label">Years Experience</div></div>
+      <div class="stat-box"><div class="stat-box__num">15,000+</div><div class="stat-box__label">Installed sqm</div></div>
+      <div class="stat-box"><div class="stat-box__num">48h</div><div class="stat-box__label">Typical Turnaround</div></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" style="background:var(--navy-2)">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <span class="eyebrow">Our Values</span>
+      <h2>How We Work</h2>
+      <p>The principles that guide every project we take on.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card" data-reveal><div class="value-card__icon">🎯</div><h3>Engineering First</h3><p>Every decision is grounded in physics, not preference. We don't cut corners on calculations.</p></div>
+      <div class="value-card" data-reveal><div class="value-card__icon">💬</div><h3>Clear Communication</h3><p>Plain English explanations alongside technical drawings. You'll always know what we've done and why.</p></div>
+      <div class="value-card" data-reveal><div class="value-card__icon">⏱️</div><h3>Reliable Delivery</h3><p>We commit to turnaround times and honour them. If something changes, we tell you immediately.</p></div>
+      <div class="value-card" data-reveal><div class="value-card__icon">🔒</div><h3>Accountability</h3><p>We stand behind our work. If there's an issue with a design we've produced, we resolve it — no charge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="cta-banner__inner container">
+    <span class="eyebrow" style="justify-content:center">Work With Us</span>
+    <h2>Ready to Get Started?</h2>
+    <p>Send us your floor plans for a no-obligation quote within 24 hours.</p>
+    <div class="cta-banner__actions">
+      <a href="contact.html" class="btn btn--cyan">Get a Quote</a>
+      <a href="projects.html" class="btn btn--outline">View Our Projects</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="logo">
+              <span class="logo__text"><span class="logo__top">Hydronic</span><span class="logo__bot">Design <em>Ltd</em></span><span class="logo__lines"><span></span><span></span></span></span>
+        </a>
+        <p>Specialist underfloor heating design for residential and commercial projects across the UK.</p>
+        <div class="footer__social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+      </div>
+      <div class="footer__col"><h4>Navigation</h4><ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="projects.html">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer__col"><h4>Contact</h4>
+        <div class="footer__contact-item"><span>📞</span><a href="tel:+447581202053">07581 202053</a></div>
+        <div class="footer__contact-item"><span>✉️</span><a href="mailto:projects@hydronicdesign.co.uk">projects@hydronicdesign.co.uk</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
+  </div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

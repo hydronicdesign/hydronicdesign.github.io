@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homeowners &amp; Renovators — Hydronic Design Ltd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ══ DRAGGABLE / ZOOMABLE PLAN BACKGROUND ══ -->
+<div id="cad-bg" aria-hidden="true">
+  <img id="cad-bg-img" src="assets/plan-bg.png" alt="" draggable="false" />
+</div>
+<div id="cad-bg-tint" aria-hidden="true"></div>
+<div id="cad-controls">
+  <div id="cad-hint"><span class="cad-hint__dot"></span>Drag to pan · +/&minus; to zoom</div>
+  <div class="cad-controls__btns">
+    <button type="button" id="cad-zoom-out" aria-label="Zoom out">&minus;</button>
+    <button type="button" id="cad-zoom-in" aria-label="Zoom in">&plus;</button>
+    <button type="button" id="cad-reset">Reset</button>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__text">
+        <span class="logo__top">Hydronic</span>
+        <span class="logo__bot">Design <em>Ltd</em></span>
+        <span class="logo__lines"><span></span><span></span></span>
+      </span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="index.html"    class="nav__link">Home</a></li>
+      <li><a href="services.html" class="nav__link">Services</a></li>
+      <li><a href="about.html"    class="nav__link">About</a></li>
+      <li><a href="projects.html" class="nav__link">Projects</a></li>
+      <li><a href="contact.html"  class="nav__link">Contact</a></li>
+    </ul>
+    <div class="nav__cta-group">
+      <a href="trade.html" class="btn btn--orange">Trade &amp; Commercial</a>
+      <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+    </div>
+    <button class="nav__toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__mobile">
+    <a href="index.html"    class="nav__link">Home</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html"    class="nav__link">About</a>
+    <a href="projects.html" class="nav__link">Projects</a>
+    <a href="contact.html"  class="nav__link">Contact</a>
+    <a href="trade.html"    class="btn btn--orange">Trade &amp; Commercial</a>
+    <a href="homeowners.html" class="btn btn--outline">Homeowners &amp; Renovators</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Homeowners &amp; Renovators</span></div>
+    <span class="eyebrow">B2C</span>
+    <h1>Homeowners &amp; Renovators</h1>
+    <p>Professional UFH design for self-builders, renovators, and homeowners — clear drawings your installer can use straight away.</p>
+  </div>
+</div>
+
+<section class="section" style="background:var(--navy)">
+  <div class="container">
+    <div class="about-grid" data-reveal>
+      <div class="about-content">
+        <span class="eyebrow">Compliance &amp; Standards</span>
+        <h2>MCS Compliance Notice</h2>
+        <p>All heat loss calculations and underfloor heating layouts provided by Hydronic Design Ltd are executed within <a href="https://www.h2xengineering.com/exports/heat-load-report/" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(34,211,238,0.4);transition:border-color 0.2s">H2X software</a>, configured to strictly adhere to CIBSE and MCS technical frameworks. While our data exports are structured to satisfy MCS sign-off criteria, the ultimate compliance and sign-off on the <a href="https://mcscertified.com/wp-content/uploads/2026/02/MCS2025-MID-New-Certificate-Heat-Pump-Technologies-2025.pdf" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(34,211,238,0.4);transition:border-color 0.2s">MCS Installation Database (MID)</a> remain the responsibility of the MCS Certified Lead Contractor overseeing the physical installation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="logo">
+          <span class="logo__text">
+            <span class="logo__top">Hydronic</span>
+            <span class="logo__bot">Design <em>Ltd</em></span>
+            <span class="logo__lines"><span></span><span></span></span>
+          </span>
+        </a>
+        <p>Specialist underfloor heating design for residential and commercial projects across the UK.</p>
+        <div class="footer__social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+      </div>
+      <div class="footer__col"><h4>Navigation</h4><ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="projects.html">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer__col"><h4>Contact</h4>
+        <div class="footer__contact-item"><span>📞</span><a href="tel:+447581202053">07581 202053</a></div>
+        <div class="footer__contact-item"><span>✉️</span><a href="mailto:projects@hydronicdesign.co.uk">projects@hydronicdesign.co.uk</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

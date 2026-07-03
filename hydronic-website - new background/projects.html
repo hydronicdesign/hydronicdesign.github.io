@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Hydronic Design Ltd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+/* Photo gallery inside project card */
+    .proj-card__gallery {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 100%; aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+    }
+    .proj-card__gallery-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+      display: block;
+    }
+    .proj-card__gallery-img:hover { opacity: 0.85; }
+    /* Lightbox */
+    .proj-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .proj-lightbox.open { display: flex; }
+    .proj-lightbox img {
+      max-width: 95vw; max-height: 92vh;
+      border-radius: 6px; object-fit: contain;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.8);
+    }
+    .proj-lightbox__close {
+      position: fixed; top: 1.25rem; right: 1.5rem;
+      color: #fff; font-size: 2rem; line-height: 1;
+      background: none; border: none; cursor: pointer;
+      opacity: 0.7; transition: opacity 0.15s;
+    }
+    .proj-lightbox__close:hover { opacity: 1; }
+    .projects-full-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 1fr;
+      gap: 1.5rem;
+    }
+    .projects-full-grid .proj-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .projects-full-grid .proj-card .proj-card__body { flex: 1; }
+    @media (max-width: 900px) { .projects-full-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .projects-full-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ DRAGGABLE / ZOOMABLE PLAN BACKGROUND ══ -->
+<div id="cad-bg" aria-hidden="true">
+  <img id="cad-bg-img" src="assets/plan-bg.png" alt="" draggable="false" />
+</div>
+<div id="cad-bg-tint" aria-hidden="true"></div>
+<div id="cad-controls">
+  <div id="cad-hint"><span class="cad-hint__dot"></span>Drag to pan · +/&minus; to zoom</div>
+  <div class="cad-controls__btns">
+    <button type="button" id="cad-zoom-out" aria-label="Zoom out">&minus;</button>
+    <button type="button" id="cad-zoom-in" aria-label="Zoom in">&plus;</button>
+    <button type="button" id="cad-reset">Reset</button>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__text">
+        <span class="logo__top">Hydronic</span><span class="logo__bot">Design <em>Ltd</em></span>
+        <span class="logo__lines"><span></span><span></span></span>
+      </span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="index.html"    class="nav__link">Home</a></li>
+      <li><a href="services.html" class="nav__link">Services</a></li>
+      <li><a href="about.html"    class="nav__link">About</a></li>
+      <li><a href="projects.html" class="nav__link active">Projects</a></li>
+      <li><a href="contact.html"  class="nav__link">Contact</a></li>
+    </ul>
+    <div class="nav__cta-group">
+      <a href="trade.html" class="btn btn--orange">Trade &amp; Commercial</a>
+      <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+    </div>
+    <button class="nav__toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__mobile">
+    <a href="index.html"    class="nav__link">Home</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html"    class="nav__link">About</a>
+    <a href="projects.html" class="nav__link active">Projects</a>
+    <a href="contact.html"  class="nav__link">Contact</a>
+    <a href="trade.html"    class="btn btn--orange">Trade &amp; Commercial</a>
+    <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Projects</span></div>
+    <span class="eyebrow">Our Work</span>
+    <h1>Featured Projects</h1>
+    <p>A selection of residential, commercial, and retrofit hydronic heating systems designed across the UK.</p>
+  </div>
+</div>
+
+<section class="section" style="background:var(--navy)">
+  <div class="container">
+    <div class="projects-full-grid">
+      <div class="proj-card" data-reveal>
+        <div class="proj-card__gallery" style="grid-template-columns:1fr">
+          <img class="proj-card__gallery-img" src="images/cornwall.png" alt="Cornwall stone cottage — UFH pipe layout CAD drawing" onclick="openProjLightbox('images/cornwall.png')" />
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__tag">Residential · Retrofit</div>
+          <h3>Stone Cottage Retrofit</h3>
+          <p>Ground floor, Cornwall, 2024. A thick stone-walled cottage requiring careful design due to high heat loss.</p>
+        </div>
+      </div>
+      <div class="proj-card" data-reveal>
+        <div class="proj-card__img">🏢</div>
+        <div class="proj-card__body">
+          <div class="proj-card__tag">Commercial · Education</div>
+          <h3>Primary School, London</h3>
+          <p>A high end refurb of a 3 storey 1,500sqm primary school for a client. The system runs at a low flow temperature giving an excellent SCOP.</p>
+        </div>
+      </div>
+      <div class="proj-card" data-reveal>
+        <div class="proj-card__gallery">
+          <img class="proj-card__gallery-img" src="images/clifton.jpeg" alt="Clifton retrofit — UFH pipe installation" onclick="openProjLightbox('images/clifton.jpeg')" />
+          <img class="proj-card__gallery-img" src="images/clifton 2.jpeg" alt="Clifton retrofit — UFH pipe installation detail" onclick="openProjLightbox('images/clifton 2.jpeg')" />
+        </div>
+        <div class="proj-card__body">
+          <div class="proj-card__tag">Residential · Retrofit</div>
+          <h3>Victorian Terrace Retrofit</h3>
+          <p>Ground floor, Clifton, Bristol, 2025. A mixed system was specified with a screeded kitchen diner with a stone slab finish. A joisted system in the lounge using metal plates. The UFH is performing well in this house which uses MVHR and an 8kW ASHP system.</p>
+        </div>
+      </div>
+      <div class="proj-card" data-reveal>
+        <div class="proj-card__img">🏨</div>
+        <div class="proj-card__body">
+          <div class="proj-card__tag">Commercial · New Build</div>
+          <h3>200 Flats — Midlands</h3>
+          <p>A large development for a tier one contractor, multiple zones and floor finishes to take into account.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="cta-banner__inner container">
+    <span class="eyebrow" style="justify-content:center">Start Your Project</span>
+    <h2>Have a Project in Mind?</h2>
+    <p>Send us your floor plans and we'll turn around a quote within 24 hours.</p>
+    <div class="cta-banner__actions">
+      <a href="contact.html" class="btn btn--cyan">Get a Quote</a>
+      <a href="services.html" class="btn btn--outline">Our Services</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="logo">
+              <span class="logo__text"><span class="logo__top">Hydronic</span><span class="logo__bot">Design <em>Ltd</em></span><span class="logo__lines"><span></span><span></span></span></span>
+        </a>
+        <p>Specialist underfloor heating design for residential and commercial projects across the UK.</p>
+        <div class="footer__social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+      </div>
+      <div class="footer__col"><h4>Navigation</h4><ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="projects.html">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer__col"><h4>Contact</h4>
+        <div class="footer__contact-item"><span>📞</span><a href="tel:+447581202053">07581 202053</a></div>
+        <div class="footer__contact-item"><span>✉️</span><a href="mailto:projects@hydronicdesign.co.uk">projects@hydronicdesign.co.uk</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
+  </div>
+</footer>
+<div class="proj-lightbox" id="proj-lightbox" onclick="closeProjLightbox()">
+  <button class="proj-lightbox__close" onclick="closeProjLightbox()" aria-label="Close">&times;</button>
+  <img id="proj-lightbox-img" alt="Project photo" />
+</div>
+<script src="js/main.js"></script>
+<script>
+function openProjLightbox(src) {
+  document.getElementById('proj-lightbox-img').src = src;
+  document.getElementById('proj-lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProjLightbox() {
+  document.getElementById('proj-lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeProjLightbox();
+});
+</script>
+</body>
+</html>

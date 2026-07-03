@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Hydronic Design Ltd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .services-detail { background: var(--navy); padding-top: 2.5rem; }
+    .svc-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-bottom: 6rem; }
+    .svc-detail-grid:nth-child(even) .svc-detail-visual { order: -1; }
+    .svc-detail-visual {
+      border: 1px solid var(--border-lt);
+      border-radius: var(--r);
+      aspect-ratio: 4/3;
+      background: var(--navy-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      position: relative; overflow: hidden;
+    }
+    .svc-detail-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .svc-detail-visual--photo {
+      aspect-ratio: unset;
+      background: var(--navy-3);
+      cursor: zoom-in;
+      padding: 0;
+    }
+    .svc-detail-visual--photo::before { display: none; }
+    .svc-detail-visual--photo img {
+      width: 100%; height: auto;
+      display: block;
+      border-radius: var(--r);
+      transition: opacity 0.2s;
+    }
+    .svc-detail-visual--photo:hover img { opacity: 0.85; }
+    .svc-detail-visual--photo .zoom-hint {
+      position: absolute; bottom: 0.75rem; right: 0.75rem;
+      background: rgba(0,0,0,0.55);
+      color: #fff; font-size: 0.72rem; font-weight: 600;
+      padding: 0.25rem 0.6rem; border-radius: 4px;
+      pointer-events: none; letter-spacing: 0.03em;
+    }
+    .svc-detail-grid--full { grid-template-columns: 1fr !important; }
+    /* Lightbox */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 95vw; max-height: 92vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.8);
+      object-fit: contain;
+    }
+    .lightbox__close {
+      position: fixed; top: 1.25rem; right: 1.5rem;
+      color: #fff; font-size: 2rem; line-height: 1;
+      background: none; border: none; cursor: pointer;
+      opacity: 0.7; transition: opacity 0.15s;
+    }
+    .lightbox__close:hover { opacity: 1; }
+    .svc-detail-content h2 { margin-bottom: 1rem; }
+    .svc-detail-content > p { font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .svc-includes { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+    .svc-includes li {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.88rem; color: var(--muted);
+    }
+    .svc-includes li::before {
+      content: '→';
+      color: var(--cyan); font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .pricing-card {
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 2rem;
+      transition: border-color var(--t), transform var(--t);
+      position: relative;
+    }
+    .pricing-card--featured {
+      border-color: rgba(34,211,238,0.4);
+      background: rgba(34,211,238,0.04);
+    }
+    .pricing-card--featured::before {
+      content: 'Most Popular';
+      position: absolute; top: -1px; right: 1.5rem;
+      background: var(--cyan); color: var(--navy);
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0 0 6px 6px;
+    }
+    .pricing-card:hover { border-color: rgba(34,211,238,0.3); transform: translateY(-4px); }
+    .pricing-card__name { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.5rem; }
+    .pricing-card__price { font-family: var(--font-head); font-size: 2.2rem; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 0.25rem; }
+    .pricing-card__price small { font-size: 0.9rem; font-weight: 400; color: var(--muted); }
+    .pricing-card__desc { font-size: 0.85rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .pricing-card__features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.75rem; }
+    .pricing-card__feat { display: flex; align-items: center; gap: 0.5rem; font-size: 0.83rem; color: var(--muted); }
+    .pricing-card__feat::before { content: '✓'; color: var(--cyan); font-weight: 700; flex-shrink: 0; }
+    @media (max-width: 1024px) {
+      .svc-detail-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .svc-detail-grid:nth-child(even) .svc-detail-visual { order: 0; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ DRAGGABLE / ZOOMABLE PLAN BACKGROUND ══ -->
+<div id="cad-bg" aria-hidden="true">
+  <img id="cad-bg-img" src="assets/plan-bg.png" alt="" draggable="false" />
+</div>
+<div id="cad-bg-tint" aria-hidden="true"></div>
+<div id="cad-controls">
+  <div id="cad-hint"><span class="cad-hint__dot"></span>Drag to pan · +/&minus; to zoom</div>
+  <div class="cad-controls__btns">
+    <button type="button" id="cad-zoom-out" aria-label="Zoom out">&minus;</button>
+    <button type="button" id="cad-zoom-in" aria-label="Zoom in">&plus;</button>
+    <button type="button" id="cad-reset">Reset</button>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="logo">
+      <span class="logo__text">
+        <span class="logo__top">Hydronic</span>
+        <span class="logo__bot">Design <em>Ltd</em></span>
+        <span class="logo__lines"><span></span><span></span></span>
+      </span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="index.html"    class="nav__link">Home</a></li>
+      <li><a href="services.html" class="nav__link active">Services</a></li>
+      <li><a href="about.html"    class="nav__link">About</a></li>
+      <li><a href="projects.html" class="nav__link">Projects</a></li>
+      <li><a href="contact.html"  class="nav__link">Contact</a></li>
+    </ul>
+    <div class="nav__cta-group">
+      <a href="trade.html" class="btn btn--orange">Trade &amp; Commercial</a>
+      <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+    </div>
+    <button class="nav__toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__mobile">
+    <a href="index.html"    class="nav__link">Home</a>
+    <a href="services.html" class="nav__link active">Services</a>
+    <a href="about.html"    class="nav__link">About</a>
+    <a href="projects.html" class="nav__link">Projects</a>
+    <a href="contact.html"  class="nav__link">Contact</a>
+    <a href="trade.html"    class="btn btn--orange">Trade &amp; Commercial</a>
+    <a href="homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Services</span></div>
+    <span class="eyebrow">What We Offer</span>
+    <h1>Our Services</h1>
+  </div>
+</div>
+
+<section class="section services-detail">
+  <div class="container">
+
+    <div class="pricing-grid" style="margin-bottom:3rem;">
+
+      <div class="pricing-card" id="service-1" data-reveal>
+        <div class="pricing-card__name">01 — UFH System Design</div>
+        <div class="pricing-card__price">from £149<small> per project</small></div>
+        <p class="pricing-card__desc">BS EN 1264 Compliant · With heat losses provided by client. Installer-ready pipe layouts and manifold schedules produced using H2X software.</p>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feat">Pipe-layout drawings with fixing centres and circuit lengths</li>
+          <li class="pricing-card__feat">Manifold schedule with flow-rate and balancing data</li>
+          <li class="pricing-card__feat">Heat source sizing recommendation</li>
+          <li class="pricing-card__feat">BS EN 1264 compliant design methodology</li>
+        </ul>
+        <a href="contact.html" class="btn btn--outline" style="width:100%;justify-content:center">Get a Quote</a>
+      </div>
+
+      <div class="pricing-card" id="service-2" data-reveal>
+        <div class="pricing-card__name">02 — Heat Load Report Only</div>
+        <div class="pricing-card__price">from £149<small> per project</small></div>
+        <p class="pricing-card__desc">MCS / BS EN 12831-1:2017 Compliant · Standalone room-by-room heat-loss calculations — suitable for heat pump sizing guidance or as an input to a separate UFH design.</p>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feat">BS EN 12831-1:2017 room-by-room heat-loss calculations</li>
+          <li class="pricing-card__feat">MCS-compliant methodology and outputs</li>
+          <li class="pricing-card__feat">U-value assessment of building fabric</li>
+          <li class="pricing-card__feat">Ventilation losses accounted for</li>
+          <li class="pricing-card__feat">Design heat load summary</li>
+          <li class="pricing-card__feat">Heat load report</li>
+          <li class="pricing-card__feat">Estimated annual demand</li>
+          <li class="pricing-card__feat">Room materials / dimensions report</li>
+          <li class="pricing-card__feat">Summary</li>
+        </ul>
+        <a href="contact.html" class="btn btn--outline" style="width:100%;justify-content:center">Get a Quote</a>
+      </div>
+
+      <div class="pricing-card pricing-card--featured" id="service-3" data-reveal>
+        <div class="pricing-card__name">03 — Complete Package</div>
+        <div class="pricing-card__price">from £199<small> per project</small></div>
+        <p class="pricing-card__desc">UFH Design &amp; Heat Loss Calculations · Our most comprehensive service in a single package using H2X software — ideal for BUS funding applications.</p>
+        <ul class="pricing-card__features">
+          <li class="pricing-card__feat">BS EN 12831-1:2017 room-by-room heat-loss calculations</li>
+          <li class="pricing-card__feat">U-value assessment of building fabric</li>
+          <li class="pricing-card__feat">Ventilation losses accounted for</li>
+          <li class="pricing-card__feat">BS EN 1264 compliant UFH system design</li>
+          <li class="pricing-card__feat">Pipe-layout drawings with fixing centres and circuit lengths</li>
+          <li class="pricing-card__feat">Manifold schedule with flow-rate and balancing data</li>
+          <li class="pricing-card__feat">Heat load report</li>
+          <li class="pricing-card__feat">Estimated annual demand</li>
+          <li class="pricing-card__feat">Room materials / dimensions report</li>
+          <li class="pricing-card__feat">Summary</li>
+        </ul>
+        <a href="contact.html" class="btn btn--cyan" style="width:100%;justify-content:center">Get a Quote</a>
+      </div>
+
+    </div>
+
+    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" onclick="openLightbox()" title="Click to enlarge" data-reveal>
+      <img src="images/Screenshot 2026-07-01 145903.png" alt="Sample UFH pipe layout design with room-by-room heat loss data" />
+      <span class="zoom-hint">Click to enlarge</span>
+    </div>
+
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="logo">
+              <span class="logo__text">
+            <span class="logo__top">Hydronic</span>
+            <span class="logo__bot">Design <em>Ltd</em></span>
+            <span class="logo__lines"><span></span><span></span></span>
+          </span>
+        </a>
+        <p>Specialist underfloor heating design for residential and commercial projects across the UK.</p>
+        <div class="footer__social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+      </div>
+      <div class="footer__col"><h4>Navigation</h4><ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="projects.html">Projects</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer__col"><h4>Contact</h4>
+        <div class="footer__contact-item"><span>📞</span><a href="tel:+447581202053">07581 202053</a></div>
+        <div class="footer__contact-item"><span>✉️</span><a href="mailto:projects@hydronicdesign.co.uk">projects@hydronicdesign.co.uk</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
+  </div>
+</footer>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox__close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img src="images/Screenshot 2026-07-01 145903.png" alt="UFH pipe layout design — full size" />
+</div>
+<script src="js/main.js"></script>
+<script>
+  function openLightbox() {
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>
