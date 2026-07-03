@@ -928,22 +928,28 @@ p  { color: var(--muted); }
   .footer__bottom { flex-direction: column; text-align: center; }
   .contact-form { padding: 1.5rem; }
 
-  /* Service cards — stack vertically, equal height, fix badge */
+  /* Service cards — stack vertically on mobile */
   .svc-visual-section__cards {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 1px;
   }
+  /* All cards: consistent padding, same internal alignment */
   .hero-card {
-    /* equal height: all cards use same flex layout, no auto-height variance */
-    padding-top: 2.5rem;
+    padding: 1.5rem;
   }
+  /* Featured card: extra top padding to clear the badge strip */
+  .hero-card--featured {
+    padding-top: 3rem;
+  }
+  /* Badge: full-width strip pinned to top of its card */
   .hero-card__badge {
-    /* move badge inside flow so it doesn't overlap the label */
-    position: static;
-    display: inline-block;
-    border-radius: 4px;
-    margin-bottom: 0.6rem;
-    align-self: flex-start;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    text-align: center;
+    border-radius: 0;
+    padding: 0.35rem 0;
   }
 }
 
