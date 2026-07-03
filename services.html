@@ -226,7 +226,7 @@
 
     </div>
 
-    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" data-reveal style="pointer-events:auto;cursor:zoom-in;padding:0;background:var(--navy-3)" title="Tap to enlarge">
+    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" data-reveal style="pointer-events:auto;cursor:zoom-in;padding:0;background:var(--navy-3);min-height:300px" title="Tap to enlarge">
       <canvas id="pdf-canvas" style="width:100%;height:auto;display:block;border-radius:var(--r)"></canvas>
       <div id="pdf-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem">Loading preview…</div>
       <span class="zoom-hint">Tap to enlarge</span>
@@ -273,51 +273,62 @@
   var pdfUrl = 'images/screenshot 2.pdf';
   var canvas = document.getElementById('pdf-canvas');
   var loading = document.getElementById('pdf-loading');
-  var pdfPage = null;
 
-  /* Load PDF once, render thumbnail at 0.6x scale for fast load */
   pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
     return pdf.getPage(1);
   }).then(function(page) {
-    pdfPage = page;
     var container = canvas.parentElement;
     var containerWidth = container.clientWidth || 700;
+    var dpr = window.devicePixelRatio || 1;
     var viewport = page.getViewport({ scale: 1 });
-    var scale = (containerWidth / viewport.width) * 0.6; /* 0.6x = smaller file, faster paint */
-    var scaledViewport = page.getViewport({ scale: scale });
 
-    canvas.width  = scaledViewport.width;
-    canvas.height = scaledViewport.height;
+    /* Lock container aspect-ratio from the start so page doesn't reflow as canvas loads */
+    container.style.aspectRatio = (viewport.width / viewport.height).toFixed(4);
+    container.style.minHeight = '';
 
-    page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledViewport }).promise.then(function() {
+    /* Render at full container width × device pixel ratio for sharp display */
+    var scale = (containerWidth / viewport.width) * dpr;
+    var sv = page.getViewport({ scale: scale });
+    canvas.width  = sv.width;
+    canvas.height = sv.height;
+    canvas.style.width  = containerWidth + 'px';
+    canvas.style.height = (containerWidth * viewport.height / viewport.width) + 'px';
+
+    page.render({ canvasContext: canvas.getContext('2d'), viewport: sv }).promise.then(function() {
       if (loading) loading.style.display = 'none';
+      /* Pre-render lightbox canvas in background so opening is instant */
+      prerenderLightbox(page, viewport);
     });
   }).catch(function() {
     if (loading) loading.textContent = 'Preview unavailable.';
   });
 
-  /* Lightbox — renders PDF at full quality when opened */
-  function openLightbox() {
-    var lb = document.getElementById('lightbox');
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function prerenderLightbox(page, baseViewport) {
+    var lbCanvas = document.getElementById('pdf-canvas-large');
+    var dpr = window.devicePixelRatio || 1;
+    var vw = window.innerWidth  * 0.95;
+    var vh = window.innerHeight * 0.92;
+    var scale = Math.min(vw / baseViewport.width, vh / baseViewport.height);
+    var sv = page.getViewport({ scale: scale * dpr });
+    lbCanvas.width  = sv.width;
+    lbCanvas.height = sv.height;
+    lbCanvas.style.width  = (baseViewport.width  * scale) + 'px';
+    lbCanvas.style.height = (baseViewport.height * scale) + 'px';
+    page.render({ canvasContext: lbCanvas.getContext('2d'), viewport: sv });
+  }
 
-    if (pdfPage) {
-      var lbCanvas = document.getElementById('pdf-canvas-large');
-      var vw = window.innerWidth * 0.95;
-      var vh = window.innerHeight * 0.92;
-      var viewport = pdfPage.getViewport({ scale: 1 });
-      var scale = Math.min(vw / viewport.width, vh / viewport.height);
-      var sv = pdfPage.getViewport({ scale: scale });
-      lbCanvas.width  = sv.width;
-      lbCanvas.height = sv.height;
-      pdfPage.render({ canvasContext: lbCanvas.getContext('2d'), viewport: sv });
-    }
+  function openLightbox() {
+    /* Compensate for scrollbar width so page doesn't shift when overflow:hidden removes it */
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = scrollbarW + 'px';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lightbox').classList.add('open');
   }
 
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
   }
 
   function addTap(el, fn) {
