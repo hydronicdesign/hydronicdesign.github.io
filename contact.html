@@ -153,6 +153,7 @@
           <input type="hidden" name="_subject" value="New Enquiry — Hydronic Design Ltd" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_replyto" id="replyto-field" value="" />
           <input type="hidden" name="_autoresponse" value="Thank you for your enquiry — we've received it and will be in touch shortly, usually within one business day.
 
 If you need to follow up in the meantime, or want to send additional files such as floor plans or drawings, you can reach us directly at projects@hydronicdesign.co.uk.
@@ -356,6 +357,9 @@ async function handleSubmit(e) {
 
   btn.textContent = 'Sending…';
   btn.disabled = true;
+
+  // Set reply-to to the enquirer's email so Outlook treats it as a real sender
+  document.getElementById('replyto-field').value = document.getElementById('email').value;
 
   const data = new FormData(form);
 
