@@ -226,9 +226,9 @@
 
     </div>
 
-    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" onclick="openLightbox()" title="Click to enlarge" data-reveal>
+    <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" title="Tap to enlarge" data-reveal style="pointer-events:auto;cursor:pointer">
       <img src="images/Screenshot 2026-07-01 145903.png" alt="Sample UFH pipe layout design with room-by-room heat loss data" />
-      <span class="zoom-hint">Click to enlarge</span>
+      <span class="zoom-hint">Tap to enlarge</span>
     </div>
 
   </div>
@@ -258,8 +258,8 @@
     <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
   </div>
 </footer>
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox__close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+<div class="lightbox" id="lightbox">
+  <button class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button>
   <img src="images/Screenshot 2026-07-01 145903.png" alt="UFH pipe layout design — full size" />
 </div>
 <script src="js/main.js"></script>
@@ -272,6 +272,20 @@
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
   }
+
+  var trigger = document.getElementById('sample-design');
+  var lightbox = document.getElementById('lightbox');
+  var closeBtn = document.getElementById('lightbox-close');
+
+  function addTap(el, fn) {
+    el.addEventListener('click', fn);
+    el.addEventListener('touchend', function(e) { e.preventDefault(); fn(); });
+  }
+
+  addTap(trigger, openLightbox);
+  addTap(lightbox, closeLightbox);
+  addTap(closeBtn, function(e) { e.stopPropagation(); closeLightbox(); });
+
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
   });
