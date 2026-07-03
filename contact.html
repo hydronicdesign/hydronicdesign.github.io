@@ -33,39 +33,6 @@
     .faq-body.open { display: block; }
     .faq-body p { font-size: 0.88rem; line-height: 1.75; }
 
-    /* File upload */
-    .file-drop {
-      border: 1.5px dashed var(--border-lt);
-      border-radius: var(--r);
-      padding: 1.5rem 1.25rem;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color var(--t), background var(--t);
-      background: rgba(255,255,255,0.02);
-    }
-    .file-drop:hover, .file-drop.drag-over {
-      border-color: var(--cyan);
-      background: var(--cyan-glow);
-    }
-    .file-drop__icon { font-size: 1.6rem; margin-bottom: 0.4rem; }
-    .file-drop__text { font-size: 0.88rem; color: var(--white); margin-bottom: 0.25rem; }
-    .file-drop__hint { font-size: 0.75rem; color: var(--muted); }
-    .file-drop__list { margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; text-align: left; }
-    .file-item {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.4rem 0.65rem;
-      background: rgba(255,255,255,0.05);
-      border-radius: var(--r-sm);
-      font-size: 0.78rem; color: var(--white);
-    }
-    .file-item__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
-    .file-item__size { color: var(--muted); flex-shrink: 0; margin-left: 0.5rem; }
-    .file-item__remove {
-      background: none; border: none; color: var(--muted); cursor: pointer;
-      font-size: 1rem; line-height: 1; padding: 0 0 0 0.5rem;
-      transition: color var(--t);
-    }
-    .file-item__remove:hover { color: #f87171; }
     .file-error { font-size: 0.78rem; color: #f87171; margin-top: 0.4rem; min-height: 1.1em; }
   </style>
 </head>
@@ -148,19 +115,13 @@
       </div>
 
       <div class="contact-form" data-reveal>
-        <form id="contact-form" onsubmit="handleSubmit(event)" enctype="multipart/form-data">
-          <!-- Formsubmit.co config -->
-          <input type="hidden" name="_subject" value="New Enquiry — Hydronic Design Ltd" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_replyto" id="replyto-field" value="" />
-          <input type="hidden" name="_autoresponse" value="Thank you for your enquiry — we've received it and will be in touch shortly, usually within one business day.
-
-If you need to follow up in the meantime, or want to send additional files such as floor plans or drawings, you can reach us directly at projects@hydronicdesign.co.uk.
-
-— Hydronic Design Ltd" />
+        <form id="contact-form" onsubmit="handleSubmit(event)">
+          <!-- Web3Forms config -->
+          <input type="hidden" name="access_key" value="27ccb3da-1a12-4f0f-93b1-a068b67ffc89" />
+          <input type="hidden" name="subject" value="New Enquiry — Hydronic Design Ltd" />
+          <input type="hidden" name="from_name" value="Hydronic Design Website" />
           <!-- Honeypot spam filter -->
-          <input type="text" name="_honey" style="display:none" />
+          <input type="checkbox" name="botcheck" style="display:none" />
           <div class="form-row">
             <div class="form-group">
               <label for="fname">First Name *</label>
@@ -195,19 +156,6 @@ If you need to follow up in the meantime, or want to send additional files such 
           <div class="form-group">
             <label for="message">Project Details *</label>
             <textarea id="message" name="Project Details" placeholder="Tell us about your project — property type, number of floors, approximate floor area, heat source (boiler / heat pump), floor finish, and your timeline…" required></textarea>
-          </div>
-          <div class="form-group">
-            <label>Attach Files <span style="color:var(--muted);font-weight:400">(optional)</span></label>
-            <div class="file-drop" id="file-drop" onclick="document.getElementById('attachment').click()">
-              <input type="file" id="attachment" name="attachment" multiple
-                accept=".pdf,.jpg,.jpeg,.png,.dwg,.dxf"
-                style="display:none" onchange="handleFileChange(this)" />
-              <div class="file-drop__icon">📎</div>
-              <div class="file-drop__text">Click to browse or drag &amp; drop files here</div>
-              <div class="file-drop__hint">PDF, JPG, PNG, DWG · Max 10 MB per file</div>
-              <div class="file-drop__list" id="file-list"></div>
-            </div>
-            <div class="file-error" id="file-error"></div>
           </div>
           <div class="file-error" id="form-error" style="margin-bottom:0.5rem"></div>
           <button type="submit" class="btn btn--cyan form-submit">Send Enquiry →</button>
@@ -280,76 +228,8 @@ If you need to follow up in the meantime, or want to send additional files such 
 
 <script src="js/main.js"></script>
 <script>
-const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
-const ALLOWED = ['pdf','jpg','jpeg','png','dwg','dxf'];
-let selectedFiles = [];
-
-function ext(name) { return name.split('.').pop().toLowerCase(); }
-
-function fmtSize(bytes) {
-  return bytes < 1024 * 1024
-    ? (bytes / 1024).toFixed(0) + ' KB'
-    : (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-}
-
-function renderFileList() {
-  const list = document.getElementById('file-list');
-  list.innerHTML = selectedFiles.map((f, i) => `
-    <div class="file-item">
-      <span class="file-item__name">${f.name}</span>
-      <span class="file-item__size">${fmtSize(f.size)}</span>
-      <button type="button" class="file-item__remove" onclick="removeFile(${i})" aria-label="Remove">✕</button>
-    </div>`).join('');
-}
-
-function validateFiles(files) {
-  const err = document.getElementById('file-error');
-  for (const f of files) {
-    if (!ALLOWED.includes(ext(f.name))) {
-      err.textContent = `"${f.name}" is not an accepted file type.`;
-      return false;
-    }
-    if (f.size > MAX_SIZE) {
-      err.textContent = `"${f.name}" exceeds the 10 MB limit.`;
-      return false;
-    }
-  }
-  err.textContent = '';
-  return true;
-}
-
-function handleFileChange(input) {
-  const incoming = Array.from(input.files);
-  if (!validateFiles(incoming)) { input.value = ''; return; }
-  selectedFiles = [...selectedFiles, ...incoming];
-  renderFileList();
-  input.value = '';
-}
-
-function removeFile(i) {
-  selectedFiles.splice(i, 1);
-  renderFileList();
-}
-
-// Drag-and-drop
-(function () {
-  const drop = document.getElementById('file-drop');
-  if (!drop) return;
-  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
-  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
-  drop.addEventListener('drop', e => {
-    e.preventDefault();
-    drop.classList.remove('drag-over');
-    const files = Array.from(e.dataTransfer.files);
-    if (!validateFiles(files)) return;
-    selectedFiles = [...selectedFiles, ...files];
-    renderFileList();
-  });
-})();
-
 async function handleSubmit(e) {
   e.preventDefault();
-  if (!validateFiles(selectedFiles)) return;
 
   const form  = document.getElementById('contact-form');
   const btn   = form.querySelector('button[type="submit"]');
@@ -358,24 +238,15 @@ async function handleSubmit(e) {
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
-  // Set reply-to to the enquirer's email so Outlook treats it as a real sender
-  document.getElementById('replyto-field').value = document.getElementById('email').value;
-
-  const data = new FormData(form);
-
-  // Replace the bare file input with the actual selected files
-  data.delete('attachment');
-  selectedFiles.forEach(f => data.append('attachment', f, f.name));
-
   try {
-    const res  = await fetch('https://formsubmit.co/ajax/projects@hydronicdesign.co.uk', {
+    const res  = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      body: data
+      body: new FormData(form)
     });
 
     const json = await res.json().catch(() => ({}));
 
-    if (res.ok && json.success === 'true') {
+    if (res.ok && json.success) {
       form.innerHTML = `<div class="form-success">
         <div class="form-success__icon">✓</div>
         <h3>Message Received</h3>
@@ -392,6 +263,7 @@ async function handleSubmit(e) {
     errEl.textContent = 'Could not send — please check your connection and try again.';
   }
 }
+
 function toggleFaq(btn) {
   const body = btn.nextElementSibling;
   const isOpen = btn.classList.contains('open');
