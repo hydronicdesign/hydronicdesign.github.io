@@ -481,6 +481,7 @@ async function handleSubmit(e) {
         <h3>Message Received</h3>
         <p>Thank you for your enquiry. We'll be in touch within one business day.</p>
       </div>`;
+      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
       btn.textContent = 'Send Enquiry →';
       btn.disabled = false;
