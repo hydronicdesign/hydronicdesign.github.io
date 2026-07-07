@@ -3,11 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Services — Hydronic Design Ltd</title>
+  <title>UFH Design Services &amp; Pricing | MCS Compliant | Hydronic Design Ltd</title>
+  <meta name="description" content="UFH pipe layout drawings, BS EN 12831-1 heat loss reports and complete design packages from £149. MCS compliant. 48-hour residential turnaround." />
+  <link rel="canonical" href="https://hydronicdesign.co.uk/services.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Hydronic Design Ltd" />
+  <meta property="og:title" content="UFH Design Services &amp; Pricing | MCS Compliant | Hydronic Design Ltd" />
+  <meta property="og:description" content="UFH pipe layout drawings, BS EN 12831-1 heat loss reports and complete design packages from £149. MCS compliant. 48-hour residential turnaround." />
+  <meta property="og:url" content="https://hydronicdesign.co.uk/services.html" />
+  <meta property="og:image" content="https://hydronicdesign.co.uk/assets/plan-bg.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="UFH Design Services &amp; Pricing | MCS Compliant | Hydronic Design Ltd" />
+  <meta name="twitter:description" content="UFH pipe layout drawings, BS EN 12831-1 heat loss reports and complete design packages from £149. MCS compliant. 48-hour turnaround." />
+  <meta name="twitter:image" content="https://hydronicdesign.co.uk/assets/plan-bg.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "UFH Design Services",
+    "url": "https://hydronicdesign.co.uk/services.html",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Service",
+          "name": "UFH Pipe Layout Drawing",
+          "description": "Detailed underfloor heating pipe layout drawing produced with H2X software. Includes loop lengths, pipe centres, circuit IDs, and zone boundaries. 48-hour residential turnaround.",
+          "provider": { "@type": "Organization", "name": "Hydronic Design Ltd" },
+          "offers": { "@type": "Offer", "price": "149", "priceCurrency": "GBP", "availability": "https://schema.org/InStock" }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Service",
+          "name": "Heat Loss Calculation Report",
+          "description": "Room-by-room heat loss calculations to BS EN 12831-1:2017. MCS-compliant report suitable for heat pump sizing and Building Regulations compliance.",
+          "provider": { "@type": "Organization", "name": "Hydronic Design Ltd" }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Service",
+          "name": "Complete UFH Design Package",
+          "description": "Full design package combining pipe layout drawing, heat loss report, and manifold schedule. Ideal for contractors and self-builders requiring a single coordinated deliverable.",
+          "provider": { "@type": "Organization", "name": "Hydronic Design Ltd" }
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     .services-detail { background: var(--navy); padding-top: 2.5rem; }
     .svc-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-bottom: 6rem; }
@@ -171,6 +225,7 @@
 
 <section class="section services-detail">
   <div class="container">
+    <h2 style="margin-bottom:2rem;">Service Packages &amp; Pricing</h2>
 
     <div class="pricing-grid" style="margin-bottom:3rem;">
 
@@ -226,6 +281,7 @@
 
     </div>
 
+    <h2 style="margin-bottom:1.5rem;">Sample Design Output</h2>
     <div class="svc-detail-visual svc-detail-visual--photo" id="sample-design" data-reveal style="pointer-events:auto;cursor:zoom-in;padding:0;background:var(--navy-3);min-height:300px" title="Tap to enlarge">
       <canvas id="pdf-canvas" style="width:100%;height:auto;display:block;border-radius:var(--r)"></canvas>
       <div id="pdf-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.85rem">Loading preview…</div>
