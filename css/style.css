@@ -125,6 +125,11 @@ p  { color: var(--muted); }
   display: flex; align-items: center; gap: 0.7rem;
   flex-shrink: 0;
 }
+.logo__img {
+  height: 38px; width: auto; display: block;
+  border-radius: 4px;
+}
+.footer .logo__img { height: 44px; }
 .logo__mark {
   width: 38px; height: 38px;
   background: linear-gradient(135deg, var(--cyan-dk), var(--cyan));
