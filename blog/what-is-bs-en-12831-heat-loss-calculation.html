@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N7K95KMPB6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+    gtag('js', new Date());
+    gtag('config', 'G-N7K95KMPB6');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Is a BS EN 12831-1 Heat Loss Calculation? | Hydronic Design Ltd</title>
+  <meta name="description" content="A plain-English guide to BS EN 12831-1 heat loss calculations — what they involve, why they're required for MCS compliance, and what outputs to expect." />
+  <link rel="canonical" href="https://hydronicdesign.co.uk/blog/what-is-bs-en-12831-heat-loss-calculation.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Hydronic Design Ltd" />
+  <meta property="og:title" content="What Is a BS EN 12831-1 Heat Loss Calculation? | Hydronic Design Ltd" />
+  <meta property="og:description" content="A plain-English guide to BS EN 12831-1 heat loss calculations — what they involve, why they're required for MCS compliance, and what outputs to expect." />
+  <meta property="og:url" content="https://hydronicdesign.co.uk/blog/what-is-bs-en-12831-heat-loss-calculation.html" />
+  <meta property="og:image" content="https://hydronicdesign.co.uk/assets/plan-bg.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="What Is a BS EN 12831-1 Heat Loss Calculation?" />
+  <meta name="twitter:description" content="A plain-English guide to BS EN 12831-1 heat loss calculations — what they involve, why they're required for MCS, and what outputs to expect." />
+  <meta name="twitter:image" content="https://hydronicdesign.co.uk/assets/plan-bg.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "What Is a BS EN 12831-1 Heat Loss Calculation and Why Does It Matter?",
+    "description": "A plain-English guide to BS EN 12831-1 heat loss calculations — what they involve, why they're required for MCS compliance, and what outputs to expect.",
+    "datePublished": "2025-06-01",
+    "author": { "@type": "Organization", "name": "Hydronic Design Ltd" },
+    "publisher": { "@type": "Organization", "name": "Hydronic Design Ltd", "url": "https://hydronicdesign.co.uk/" },
+    "url": "https://hydronicdesign.co.uk/blog/what-is-bs-en-12831-heat-loss-calculation.html",
+    "mainEntityOfPage": "https://hydronicdesign.co.uk/blog/what-is-bs-en-12831-heat-loss-calculation.html"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .post-layout { display: grid; grid-template-columns: 1fr min(680px, 100%) 1fr; }
+    .post-layout > * { grid-column: 2; }
+    .post-body h2 { color: var(--white); margin: 2rem 0 0.75rem; font-size: 1.3rem; }
+    .post-body h3 { color: var(--cyan); margin: 1.5rem 0 0.5rem; font-size: 1.05rem; }
+    .post-body p  { margin-bottom: 1rem; line-height: 1.8; }
+    .post-body ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+    .post-body ul li { margin-bottom: 0.4rem; line-height: 1.7; }
+    .post-body a { color: var(--cyan); text-underline-offset: 3px; }
+    .post-meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .post-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.5rem; display: block; }
+    .post-callout {
+      background: var(--navy-3); border-left: 3px solid var(--cyan);
+      border-radius: 0 var(--r) var(--r) 0; padding: 1.25rem 1.5rem;
+      margin: 1.75rem 0; font-size: 0.9rem;
+    }
+    .post-callout strong { color: var(--white); }
+    .back-link { font-size: 0.85rem; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; margin-bottom: 2rem; transition: color var(--t); }
+    .back-link:hover { color: var(--cyan); }
+  </style>
+</head>
+<body>
+<div id="cad-bg"><img id="cad-bg-img" src="../assets/plan-bg.png" alt="" draggable="false" /></div>
+<div id="cad-bg-tint"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="../index.html" class="logo">
+      <span class="logo__text"><span class="logo__top">Hydronic</span><span class="logo__bot">Design <em>Ltd</em></span><span class="logo__lines"><span></span><span></span></span></span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="../index.html"    class="nav__link">Home</a></li>
+      <li><a href="../services.html" class="nav__link">Services</a></li>
+      <li><a href="../about.html"    class="nav__link">About</a></li>
+      <li><a href="../projects.html" class="nav__link">Projects</a></li>
+      <li><a href="../blog.html"     class="nav__link active">Blog</a></li>
+      <li><a href="../contact.html"  class="nav__link">Contact</a></li>
+    </ul>
+    <div class="nav__cta-group">
+      <a href="../trade.html"      class="btn btn--orange">Trade &amp; Commercial</a>
+      <a href="../homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+    </div>
+    <button class="nav__toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="nav__mobile">
+    <a href="../index.html"    class="nav__link">Home</a>
+    <a href="../services.html" class="nav__link">Services</a>
+    <a href="../about.html"    class="nav__link">About</a>
+    <a href="../projects.html" class="nav__link">Projects</a>
+    <a href="../blog.html"     class="nav__link active">Blog</a>
+    <a href="../contact.html"  class="nav__link">Contact</a>
+    <a href="../trade.html"    class="btn btn--orange">Trade &amp; Commercial</a>
+    <a href="../homeowners.html" class="btn btn--orange">Homeowners &amp; Renovators</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero__inner">
+    <div class="breadcrumb"><a href="../index.html">Home</a><span>/</span><a href="../blog.html">Blog</a><span>/</span><span>Heat Loss Calculations</span></div>
+    <span class="eyebrow">Heat Loss Calculations</span>
+    <h1>What Is a BS EN 12831-1 Heat Loss Calculation?</h1>
+    <p>A plain-English guide to what the calculation involves, why it matters for MCS compliance, and what outputs to expect.</p>
+  </div>
+</div>
+
+<section class="section" style="background:var(--navy)">
+  <div class="container">
+    <div class="post-layout">
+      <div class="post-body">
+        <a href="../blog.html" class="back-link">← Back to Blog</a>
+        <span class="post-tag">Heat Loss Calculations</span>
+        <div class="post-meta">
+          <span>June 2025</span>
+          <span>By Hydronic Design Ltd</span>
+          <span>8 min read</span>
+        </div>
+
+        <p>If you're installing an air-source heat pump, applying for the Boiler Upgrade Scheme (BUS), or specifying underfloor heating for a new build or renovation, you'll almost certainly be asked for a heat loss calculation to BS EN 12831-1:2017. But what exactly is it, and why does the standard matter?</p>
+
+        <h2>What Is BS EN 12831-1?</h2>
+        <p>BS EN 12831-1:2017 is the European standard for calculating the design heat load of a building. It replaced the older BS EN 12831:2003 methodology and is now the recognised approach for sizing heating systems in the UK — particularly for MCS-certified heat pump installations.</p>
+        <p>The standard sets out a room-by-room calculation method that accounts for every relevant variable: the building's fabric, glazing, floor construction, ventilation strategy, and the outdoor design temperature for the property's location.</p>
+
+        <h2>What Does the Calculation Involve?</h2>
+        <p>A properly completed BS EN 12831-1 calculation covers the following for each room in the building:</p>
+        <ul>
+          <li><strong>Fabric heat losses</strong> — heat escaping through walls, floors, ceilings, windows and doors, based on their U-values and areas</li>
+          <li><strong>Thermal bridging</strong> — additional losses through junctions and linear bridges</li>
+          <li><strong>Ventilation losses</strong> — heat lost through air changes, infiltration and any mechanical ventilation</li>
+          <li><strong>Design outdoor temperature</strong> — the coldest expected external temperature for the site's location (from CIBSE data)</li>
+          <li><strong>Internal design temperature</strong> — the target temperature for each room type</li>
+        </ul>
+        <p>The result is a design heat load figure for every room, expressed in watts (W) or kilowatts (kW), plus a total for the whole building.</p>
+
+        <h2>Why Is It Required for MCS Compliance?</h2>
+        <p>The MCS (Microgeneration Certification Scheme) requires heat pump installers to demonstrate that the heat pump is correctly sized for the building. Guessing, using rules of thumb, or scaling from an old gas boiler size are not acceptable. A BS EN 12831-1 heat loss report is the approved method for demonstrating correct sizing.</p>
+        <p>Without it, a BUS grant claim can be refused and the installation may not achieve MCS certification. This affects both the installer's accreditation and the homeowner's eligibility for funding.</p>
+
+        <div class="post-callout">
+          <strong>Key point for homeowners:</strong> If your installer hasn't asked for floor plans or room dimensions before sizing your heat pump, the installation is unlikely to meet MCS requirements. Always request a written heat loss calculation.
+        </div>
+
+        <h2>What Do the Outputs Look Like?</h2>
+        <p>A BS EN 12831-1 heat loss report typically includes:</p>
+        <ul>
+          <li>Room-by-room heat load summary (in watts)</li>
+          <li>U-value schedule for each building element</li>
+          <li>Ventilation loss breakdown</li>
+          <li>Design heat load total for the whole dwelling</li>
+          <li>Recommended heat pump output range</li>
+          <li>Estimated annual heating demand (kWh)</li>
+        </ul>
+        <p>Our reports also include a room materials and dimensions summary, and are produced using H2X engineering software to ensure accuracy and auditability.</p>
+
+        <h2>Who Should Commission One?</h2>
+        <p>A heat loss calculation should be commissioned:</p>
+        <ul>
+          <li>Before any heat pump is specified or installed</li>
+          <li>Before designing an underfloor heating system — the heat losses determine the required heat output from each UFH circuit</li>
+          <li>As part of a BUS funding application</li>
+          <li>When seeking Planning permission for a heat pump installation (some local authorities require it)</li>
+        </ul>
+
+        <h2>How We Can Help</h2>
+        <p>Hydronic Design produces MCS-compliant BS EN 12831-1 heat loss reports as a standalone service or as part of a complete UFH design package. Reports are typically delivered within 48 hours of receiving your floor plans and building specification.</p>
+        <p>We work with <a href="../homeowners.html">homeowners and self-builders</a> directly, and provide white-label reports for <a href="../trade.html">contractors and heat pump installers</a> who need to satisfy MCS requirements on behalf of their clients.</p>
+        <p>To find out more about our heat loss calculation service or to request a quote, visit our <a href="../services.html">Services page</a> or <a href="../contact.html">get in touch</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="cta-banner__inner container">
+    <span class="eyebrow" style="justify-content:center">Need a Heat Loss Report?</span>
+    <h2>Get Your BS EN 12831-1 Report in 48 Hours</h2>
+    <p>MCS-compliant. Fixed fee. Produced using H2X software. Send us your floor plans to get started.</p>
+    <div class="cta-banner__actions">
+      <a href="../contact.html" class="btn btn--cyan">Get a Quote</a>
+      <a href="../services.html" class="btn btn--outline">View Our Services</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="../index.html" class="logo">
+          <span class="logo__text"><span class="logo__top">Hydronic</span><span class="logo__bot">Design <em>Ltd</em></span><span class="logo__lines"><span></span><span></span></span></span>
+        </a>
+        <p>Specialist underfloor heating design for residential and commercial projects across the UK.</p>
+        <div class="footer__social"><a href="#">in</a><a href="#">𝕏</a><a href="#">f</a></div>
+      </div>
+      <div class="footer__col"><h4>Navigation</h4><ul><li><a href="../index.html">Home</a></li><li><a href="../services.html">Services</a></li><li><a href="../projects.html">Projects</a></li><li><a href="../about.html">About</a></li><li><a href="../blog.html">Blog</a></li><li><a href="../contact.html">Contact</a></li></ul></div>
+      <div class="footer__col"><h4>Contact</h4>
+        <div class="footer__contact-item"><span>📞</span><a href="tel:+447581202053">07581 202053</a></div>
+        <div class="footer__contact-item"><span>✉️</span><a href="mailto:projects@hydronicdesign.co.uk">projects@hydronicdesign.co.uk</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom"><span>&copy; 2025 Hydronic Design Ltd. All rights reserved.</span><span>Registered in England &amp; Wales · Company No. 16855083</span></div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>
