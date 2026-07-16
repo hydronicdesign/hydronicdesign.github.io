@@ -126,10 +126,10 @@ p  { color: var(--muted); }
   flex-shrink: 0;
 }
 .logo__img {
-  height: 38px; width: auto; display: block;
+  height: 42px; width: auto; display: block;
   border-radius: 4px;
 }
-.footer .logo__img { height: 44px; }
+.footer .logo__img { height: 48px; }
 .logo__mark {
   width: 38px; height: 38px;
   background: linear-gradient(135deg, var(--cyan-dk), var(--cyan));
