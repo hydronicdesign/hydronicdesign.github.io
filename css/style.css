@@ -266,6 +266,57 @@ p  { color: var(--muted); }
   margin-bottom: 1.75rem;
 }
 
+.hero__for { margin-bottom: 1.75rem; }
+
+.hero__trade-link {
+  display: block;
+  max-width: 400px;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.hero__trade-link:hover {
+  border-color: var(--cyan);
+  background: var(--cyan-glow);
+}
+
+.hero__trade-link__title {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--white);
+  transition: color 0.2s;
+}
+
+.hero__trade-link:hover .hero__trade-link__title,
+.hero__trade-link:hover .hero__trade-info__heading {
+  color: var(--cyan);
+}
+
+.hero__trade-info {
+  display: block;
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.hero__trade-info__heading {
+  display: block;
+  color: var(--white);
+  margin-bottom: 0.15rem;
+  transition: color 0.2s;
+}
+
+.hero__trade-info__list {
+  list-style: disc;
+  margin: 0.4rem 0 0 1.2rem;
+  padding: 0;
+}
+
+.hero__trade-info__list li { margin-bottom: 0.2rem; }
+
 .hero__actions {
   display: flex; gap: 0.75rem; flex-wrap: wrap;
   align-items: center;
