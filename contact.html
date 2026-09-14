@@ -470,6 +470,21 @@ function toggleFaq(btn) {
   document.querySelectorAll('.faq-btn').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
   if (!isOpen) { btn.classList.add('open'); body.classList.add('open'); }
 }
+
+/* Pre-fill "Service Required" from a ?service= link param — used by the
+   Trade page pricing cards so a trade enquiry arrives pre-selected. */
+(function () {
+  const wanted = new URLSearchParams(window.location.search).get('service');
+  if (!wanted) return;
+  const select = document.getElementById('service');
+  if (!select) return;
+  for (const opt of select.options) {
+    if (opt.value === wanted || opt.textContent.trim() === wanted) {
+      select.value = opt.value;
+      break;
+    }
+  }
+})();
 </script>
 </body>
 </html>

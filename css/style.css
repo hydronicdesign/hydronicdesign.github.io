@@ -1071,3 +1071,29 @@ body { background: transparent; }
 .page-hero::before { display: none; }
 .section[style] { background: transparent !important; }
 .section { background: transparent; }
+
+/* ============================================================
+   CHECK LIST / PRICING GRID / FAQ LIST — used on trade.html
+   ============================================================ */
+.check-list { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 1.75rem; }
+.check-list li {
+  color: var(--muted); font-size: 0.95rem; line-height: 1.6;
+  padding-left: 1.6rem; position: relative;
+}
+.check-list li::before {
+  content: '✓'; position: absolute; left: 0; top: 0;
+  color: var(--cyan); font-weight: 700;
+}
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 2rem;
+}
+.pricing-grid .hero-card { border-radius: var(--r); border: 1px solid var(--border); }
+.faq-list { display: flex; flex-direction: column; max-width: 760px; }
+.faq-item { padding-block: 1.5rem; border-bottom: 1px solid var(--border); }
+.faq-item:first-child { padding-top: 0; }
+.faq-item h3 { color: var(--white); margin-bottom: 0.5rem; font-size: 1.02rem; }
+.faq-item p { font-size: 0.9rem; line-height: 1.7; }
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
