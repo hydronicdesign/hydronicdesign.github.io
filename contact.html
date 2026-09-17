@@ -446,6 +446,17 @@ async function handleSubmit(e) {
     });
 
     if (res.ok) {
+      // Fires a GA4 event the moment an enquiry actually succeeds — this
+      // form submits by fetch() with no page navigation, so a FormSubmit
+      // "_next" redirect would never trigger; a gtag event at the real
+      // success point is the correct signal instead. Mark "generate_lead"
+      // as a key event in GA4 (Admin → Events) and import it as a
+      // conversion in Google Ads once linked.
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          service: data.get('Service Required') || '(not set)'
+        });
+      }
       form.innerHTML = `<div class="form-success">
         <div class="form-success__icon">✓</div>
         <h3>Message Received</h3>
