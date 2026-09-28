@@ -6,7 +6,7 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+    gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     gtag('js', new Date());
     gtag('config', 'G-N7K95KMPB6');
   </script>
@@ -551,6 +551,12 @@ async function handleSubmit(e) {
     });
 
     if (res.ok) {
+      // GA4 lead event (imported into Google Ads as the primary conversion)
+      if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+          service: data.get('Service Required') || '(not set)'
+        });
+      }
       form.innerHTML = `<div class="form-success">
         <div class="form-success__icon">✓</div>
         <h3>Message Received</h3>

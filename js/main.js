@@ -7,7 +7,11 @@
     if (typeof gtag === 'function') {
       gtag('consent', 'update', {
         analytics_storage: granted ? 'granted' : 'denied',
-        ad_storage: 'denied'
+        // Ad measurement only: lets Google Ads count enquiries from ad clicks.
+        // ad_personalization stays denied: no remarketing or ad targeting.
+        ad_storage: granted ? 'granted' : 'denied',
+        ad_user_data: granted ? 'granted' : 'denied',
+        ad_personalization: 'denied'
       });
     }
   }
@@ -23,7 +27,7 @@
   banner.setAttribute('aria-label', 'Cookie consent');
   banner.innerHTML =
     '<div id="cookie-banner__inner">' +
-      '<p id="cookie-banner__text">We use analytics cookies to understand how visitors use this site and to improve it. No advertising cookies are used. ' +
+      '<p id="cookie-banner__text">We use cookies to understand how visitors use this site and to measure which of our Google ads lead to enquiries. We don\'t use cookies to show you ads or track you across other sites. ' +
         '<a href="https://ico.org.uk/your-data-matters/online/cookies/" target="_blank" rel="noopener noreferrer">Learn more</a>' +
       '</p>' +
       '<div id="cookie-banner__btns">' +
@@ -114,21 +118,14 @@ revealEls.forEach((el, i) => {
   revealObserver.observe(el);
 });
 
-/* ===== CONTACT FORM (contact.html) ===== */
-const form = document.querySelector('.contact-form');
-form?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = 'Sending…';
-  btn.disabled = true;
-
-  // Simulate submission (replace with real endpoint / EmailJS / Formspree)
-  setTimeout(() => {
-    form.innerHTML = `
-      <div class="form-success">
-        <div class="form-success__icon">✓</div>
-        <h3>Message received!</h3>
-        <p>Thank you for getting in touch. We'll respond within one business day.</p>
-      </div>`;
-  }, 1200);
+/* ===== CLICK-TO-CALL / EMAIL TRACKING ===== */
+// Records phone and email link clicks as GA4 events so they can be marked
+// as key events in GA4 and imported into Google Ads as conversions.
+document.addEventListener('click', function (e) {
+  var link = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="mailto:"]');
+  if (!link || typeof gtag !== 'function') return;
+  var isPhone = link.getAttribute('href').indexOf('tel:') === 0;
+  gtag('event', isPhone ? 'phone_click' : 'email_click', {
+    link_location: window.location.pathname
+  });
 });
